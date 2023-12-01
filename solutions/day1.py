@@ -1,4 +1,3 @@
-from os import name
 import re
 from typing import List
 
@@ -12,23 +11,63 @@ def load_data() -> List[str]:
 
 
 class Solver:
-    FIND_DIGITS = re.compile("[\d]")
+    FIND_DIGITS = re.compile(r"(\d)")
+    # include lookahead (?=) to capture overlapping matches
+    FIND_DIGITS_AND_WORDS = re.compile(
+        r"(?=(\d|one|two|three|four|five|six|seven|eight|nine))"
+    )
 
-    def solve(self, data: List[str]):
+    DIGIT_MAP = [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+    ]
+
+    def _word_to_number(self, digit):
+        if digit in self.DIGIT_MAP:
+            return self.DIGIT_MAP.index(digit)
+        else:
+            return digit
+
+    def _find_digits(self, finder: re, data: List[str]):
         total = 0
 
         for d in data:
-            digits = self.FIND_DIGITS.findall(d)
-            value = int(f"{digits[0]}{digits[-1]}")
+            digits = finder.findall(d)
+
+            first = self._word_to_number(digits[0])
+            last = self._word_to_number(digits[-1])
+
+            value = int(f"{first}{last}")
 
             total += value
 
         return total
+
+    def solve_part1(self, data: List[str]):
+        result = self._find_digits(self.FIND_DIGITS, data)
+
+        return result
+
+    def solve_part2(self, data: List[str]):
+        result = self._find_digits(self.FIND_DIGITS_AND_WORDS, data)
+
+        return result
 
 
 if __name__ == "__main__":
     solver = Solver()
     data = load_data()
 
-    result = solver.solve(data)
-    print(f"Result is: {result}")
+    result1 = solver.solve_part1(data)
+    result2 = solver.solve_part2(data)
+
+    print(f"Part 1 result is: {result1}")
+    print(f"Part 2 result is: {result2}")
