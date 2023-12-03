@@ -1,13 +1,7 @@
 import re
 from typing import List
 
-
-def load_data() -> List[str]:
-    raw = open("data/day1.txt").read()
-
-    data = raw.splitlines()
-
-    return data
+from solutions.common import load_data
 
 
 class Solver:
@@ -64,7 +58,7 @@ class Solver:
 
 if __name__ == "__main__":
     solver = Solver()
-    data = load_data()
+    data = load_data(1)
 
     result1 = solver.solve_part1(data)
     result2 = solver.solve_part2(data)
