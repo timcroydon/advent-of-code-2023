@@ -50,7 +50,7 @@ if __name__ == "__main__":
     data = load_data(2)
 
     result1 = solver.solve_part1(data)
-    # result2 = solver.solve_part2(data)
-
     print(f"Part 1 result is: {result1}")
-# print(f"Part 2 result is: {result2}")
+
+    result2 = solver.solve_part2(data)
+    print(f"Part 2 result is: {result2}")
